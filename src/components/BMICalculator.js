@@ -183,7 +183,7 @@ export function BMICalculator(props) {
                     className="btn btn-outline-danger my-2 my-sm-0"
                     value={obj.dateBMI}
                     onClick={handleSubmitRemoveData}>
-                    Remove
+                    Eliminar
                 </button>
             </td>
         </tr>;
@@ -193,30 +193,30 @@ export function BMICalculator(props) {
     return (
         <div>
         <section id="calculate-my-BMI" className="subsection-1">
-            <h1>Calculate My BMI</h1>
+            <h1>Calcular mi IMC</h1>
             <div className="flex-container-BMI">
                 <div className="flex-item-card-BMI">
                     <form className="center">
 
                         <div className="form-group">
-                            <label htmlFor="weight_kg" className="margin-BMI-form">Weight (kg): </label>
-                            <input type="number" id="weight_kg" placeholder="weight in kg"
+                            <label htmlFor="weight_kg" className="margin-BMI-form">Peso (kg): </label>
+                            <input type="number" id="weight_kg" placeholder="Peso en kg"
                                 className="form-control" onChange={handleWeightInputChange} />
 
-                            <label htmlFor="height_cm" className="margin-BMI-form">Height (cm): </label>
-                            <input type="number" id="height_cm" placeholder="height in cm"
+                            <label htmlFor="height_cm" className="margin-BMI-form">Altura (cm): </label>
+                            <input type="number" id="height_cm" placeholder="Altura en cm"
                                 className="form-control" onChange={handleHeightInputChange} />
 
                             <div className="center">
                                 <button id="submitButton" type="submit" className="btn btn-warning"
-                                    onClick={handleCalculateClick}>Calculate BMI</button>
+                                    onClick={handleCalculateClick}>Calcular IMC</button>
                             </div>
 
                             <div className="margin-BMI-form margin-BMI-form-2">
-                                <label htmlFor="your_bmi" className="margin-BMI-form">Your BMI: </label>
+                                <label htmlFor="your_bmi" className="margin-BMI-form">Tu IMC: </label>
                                 <input readOnly type="text" id="your_bmi"
                                     value={BMIResult}
-                                    placeholder="Your BMI"
+                                    placeholder="Tu IMC"
                                     className="form-control" />
 
                                 <DatePicker
@@ -227,7 +227,7 @@ export function BMICalculator(props) {
 
                                 <div className="center">
                                     <button id="submitButton" type="submit" className="btn btn-warning"
-                                        onClick={handleSubmitSaveData}>Save Data</button>
+                                        onClick={handleSubmitSaveData}>Guardar Datos</button>
                                 </div>
                             </div>
                         </div>
@@ -241,7 +241,7 @@ export function BMICalculator(props) {
                         labels: labelArray,
                         datasets: [
                             {
-                                label: 'My BMI line graph',
+                                label: 'Gráfico de mi BMI',
                                 data: chartData,
                             },
                         ],
@@ -256,9 +256,9 @@ export function BMICalculator(props) {
                     <table className="table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>BMI data</th>
-                                <th>Action</th>
+                                <th>Fecha</th>
+                                <th>Datos de IMC</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>

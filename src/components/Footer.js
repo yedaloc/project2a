@@ -3,7 +3,7 @@ import React from 'react';
 export function Footer() {
     return(
         <footer>
-                <p>&copy; MyDietPlan 2022</p>
+                <p>&copy; Health Planning 2022</p>
         </footer>
     );
 }

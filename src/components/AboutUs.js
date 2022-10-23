@@ -7,10 +7,10 @@ export function AboutUs() {
     <div>
       {/* About us section: introducing the project */}
       <div className="about-section">
-        <h1>About Us</h1>
+        <h1>Nosotros</h1>
         <div className='about-p'>
           <p> ejemplo </p>
-         
+          
         </div>
       </div>
 

@@ -11,7 +11,7 @@ export function NavCards() {
                     <div>
                         <span className="material-icons md-48 center margin-card-title">calculate</span>
                     </div>
-                    <p className="center">Calculate My BMI</p>
+                    <p className="center">Calcular mi IMC</p>
                 </NavLink>
             </div>
             
@@ -21,7 +21,7 @@ export function NavCards() {
                     <div>
                         <span className="material-icons md-48 center margin-card-title">edit_calendar</span>
                     </div>
-                    <p className="center">Make My Diet Plan</p>
+                    <p className="center">Planificar Dieta</p>
                 </NavLink>
             </div>
 
@@ -31,7 +31,7 @@ export function NavCards() {
                     <div>
                         <span className="material-icons md-48 center margin-card-title">calendar_month</span>
                     </div>
-                    <p className="center">View My Diet Plan</p>
+                    <p className="center">Plan</p>
                 </NavLink>
                 </div>
             </div>

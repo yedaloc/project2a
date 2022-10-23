@@ -57,7 +57,7 @@ export function MakeMyDietPlan(props) {
     return (
         <div>
             <section id="make-my-diet-plan" className="subsection-2">
-                <h1>Make My Diet Plan</h1>
+                <h1>Planificar Dieta</h1>
                 <div className="center">
                     <div className="flex-container-make">
 
@@ -66,22 +66,22 @@ export function MakeMyDietPlan(props) {
                             <form className="form-inline my-2 my-lg-0">
                                 <ul className="make-my-diet-plan-ul">
                                     <li className="make-my-diet-plan-li">
-                                        <label htmlFor="make-plan-date">Select Date: &nbsp; </label>
+                                        <label htmlFor="make-plan-date">Seleccionar Fecha: &nbsp; </label>
                                         <DatePicker className='datepicker' selected={date} onChange={(date) => setDate(date)} />
                                     </li>
                                     <li className="make-my-diet-plan-li">
-                                        <label htmlFor="food-item-search">Search For a Food Item:</label>
+                                        <label htmlFor="food-item-search">Buscar Alimentos:</label>
                                         <input className="form-control mr-sm-2"
                                             onChange={getSearchInputValue}
                                             type="search"
                                             aria-label="Search" />
                                     </li>
                                     <li className="make-my-diet-plan-li">
-                                        <label htmlFor="food_category">Select Food Category: </label>
+                                        <label htmlFor="food_category">Seleccionar alimentos por categoría: </label>
                                         <select className="form-control mr-sm-2" id="food_category" name="food_category"
                                             value={selectedFoodCategory}
                                             onChange={handleSelectFoodCategoryChange}>
-                                            <option value="">All</option>
+                                            <option value="">Todos</option>
                                             {optionElems}
                                         </select>
                                     </li>
@@ -91,7 +91,7 @@ export function MakeMyDietPlan(props) {
 
                         {/* Displaying results */}
                         <div className="flex-item-card-make">
-                            <h1>Results</h1>
+                            <h1>Alimentos</h1>
                             <div className='foodtable'>
                                 <FoodTable data={displayedData} date={date} />
                             </div>
@@ -100,9 +100,9 @@ export function MakeMyDietPlan(props) {
                         {/* Adding to database */}
                         <div className="flex-item-card-make">
                             <div className='addFood'>
-                                <p className="center">Didn't Find The Food Item You Want?</p>
+                                <p className="center">No encontraste el alimento que buscas?</p>
                                 <NavLink to="/add-food-to-database">
-                                    <button id="submitButton" type="submit" className="btn btn-outline-success my-2 my-sm-0">Add Food to Database</button>
+                                    <button id="submitButton" type="submit" className="btn btn-outline-success my-2 my-sm-0">Agregar Alimento</button>
                                 </NavLink>
                             </div>
                         </div>
@@ -112,7 +112,7 @@ export function MakeMyDietPlan(props) {
             </section>
             <footer>
                 <p>Common food data collected from <a href="https://www.kaggle.com/datasets/niharika41298/nutrition-details-for-most-common-foods">here</a>.</p>
-                <p>&copy; MyDietPlan 2022</p>
+                <p>&copy; Health Planning 2022</p>
             </footer>
         </div>
     )

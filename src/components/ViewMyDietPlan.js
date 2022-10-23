@@ -51,21 +51,21 @@ export function ViewMyDietPlan(props) {
     return (
         <div>
             <section id="view-my-diet-plan" className="subsection-3">
-                <h1>View My Diet Plan</h1>
+                <h1>Plan de alimentación</h1>
                 <div className="center">
                     <div className="flex-container-view">
 
                         {/* choice of date */}
                         <div className="flex-item-card-view">
                             <form>
-                                <label htmlFor="view-plan-date">Date:</label>
+                                <label htmlFor="view-plan-date">Fecha:</label>
                                 <DatePicker selected={date} onChange={(date) => setDate(date)} />
                             </form>
                         </div>
 
                         {/* displaying results */}
                         <div className="flex-item-card-view">
-                            <h1>Results</h1>
+                            <h1>Historial</h1>
                             <div className='foodtable'>
                                 <ViewMyDietPlanFoodTable foodData={props.foodData} viewMyDietPlanDateFoodItemsArray={resultArr} firebaseBMIData={firebaseBMIData} />
                             </div>
