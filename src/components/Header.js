@@ -7,7 +7,7 @@ export function Header() {
             <div className="intro flex-container-intro">
                 <div className="flex-item-card-intro">
                     <div className="greetings">
-                        <h1>Hola, Azu!</h1>
+                        <h1>Hola, Yeda!</h1>
                         <h2>Qué te gustaría hacer?</h2>
                     </div>
                 </div>

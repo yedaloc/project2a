@@ -4,7 +4,12 @@ import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getDatabase, ref, set as firebaseSet, onValue, push as firebasePush } from 'firebase/database';
+import { getFirestore } from "firebase/firestore";
+import { set as firebaseSet, push as firebasePush } from 'firebase/database';
+import { getDatabase, ref, child, get, onValue } from "firebase/database";
+import { collection, doc, setDoc } from "firebase/firestore"; 
+import { app } from "../firebase";
+import { ref as sRef } from 'firebase/storage';
 
 
 export function BMICalculator(props) {
@@ -59,8 +64,12 @@ export function BMICalculator(props) {
         // what to do FIRST TIME the component loads
 
         // hook up listener for when a value changes
-        const db = getDatabase();
-        const bmiResultRef = ref(db, "allBMIData"); // refers to "allBMIData" in the database
+        const db =  getDatabase();
+        const bmiResultRef = ref(db, '/allBMIData'); // refers to "allBMIData" in the database
+        onValue(bmiResultRef, (snapshot) => {
+            const data = snapshot.val();
+           // updateStarCount(postElement, data);
+          });
 
         // onValue() returns how to turn it back off
         //returns a function that will "unregister" (turn off) the listener
@@ -122,8 +131,13 @@ export function BMICalculator(props) {
             bmiResult: BMIResult,
             date: date.toString().slice(0, 15)
         }
-        const allBMIData = ref(db, "allBMIData");
+        //const allBMIData = ref(db, '/allBMIData'); 
+        const allBMIData = ref(db, "/allBMIData");
         firebasePush(allBMIData, newData);
+       // allBMIData.set({
+        //    bmiResult: BMIResult,
+         //   date: date.toString().slice(0, 15)
+       // });
     }
 
     // callback function to remove bmi data from firebase realtime database
@@ -153,8 +167,8 @@ export function BMICalculator(props) {
             for (let i = 0; i < firebaseBMIDataNew.length; i++) {
                 if (buttonBMIVal == firebaseBMIDataNew[i].bmi & buttonDateVal == firebaseBMIDataNew[i].date) {
                     const delUniqueKey = firebaseBMIDataNew[i].uniqueKey;
-                    const delRefString = "allBMIData/" + delUniqueKey;
-                    const delRef = ref(db, delRefString);
+                    const delRefString = '/allBMIData' + delUniqueKey;
+                    const delRef = collection(db, delRefString);
                     firebaseSet(delRef, null);
                 }
             }
