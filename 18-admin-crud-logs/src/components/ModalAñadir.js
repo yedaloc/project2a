@@ -1,24 +1,26 @@
 import { Modal, Stack, Form, Button } from "react-bootstrap";
 import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
-import añadirProducto from "../functions/añadirProducto";
+import añadirUsuario from "../functions/añadirProducto";
+
 
 function ModalAñadir({
   isModalAñadir,
   setIsModalAñadir,
-  actualizarEstadoProductos,
+  actualizarEstadoUsuarios,
   usuario,
 }) {
   function añadirProductoModal() {
     //obtener infor del formulario
-    const titulo = document.getElementById("titulo").value;
-    const precio = document.getElementById("precio").value;
-    const cantidad = document.getElementById("cantidad").value;
-    const sku = document.getElementById("sku").value;
+    const nombre = document.getElementById("nombre").value;
+    const correo = document.getElementById("correo").value;
+    const password = document.getElementById("password").value;
+    const rol = document.getElementById("rol").value;
+    const id = document.getElementById("id").value;
     // enviar informacion a firebase
-    const infoProducto = { titulo, precio, cantidad, sku };
-    añadirProducto(infoProducto, usuario.email);
+    const infoUsuario = { nombre,correo, password, rol, id };
+    añadirUsuario(infoUsuario, usuario.id);
     // cerrar modal
-    actualizarEstadoProductos();
+    actualizarEstadoUsuarios();
     setIsModalAñadir(false);
   }
 
@@ -30,27 +32,40 @@ function ModalAñadir({
       <Modal.Body>
         <Form>
           <Stack>
-            <Form.Control
-              id="titulo"
-              placeholder="titulo"
+          <Form.Control
+              id="nombre"
+              placeholder="nombre"
               type="text"
               className="mb-1"
             />
             <Form.Control
-              id="precio"
-              placeholder="precio"
-              type="number"
+              id="correo"
+              placeholder="correo"
+              type="text"
+              className="mb-1"
+              keyboardType="email-address"
+            />
+
+            <label><strong>Email</strong></label>
+                    <input type="email" name="email" value={this.state.email} onChange={this.onChange} className="form-control" />
+                    <span className="text-danger">{this.state.error}</span>
+            <Form.Control
+              id="password"
+              placeholder="password"
+              type="text"
               className="mb-1"
             />
+           <label>
+              Rol:
+              <select id="rol">
+                <option value="admin">Administrador</option>
+                <option value="usuario">Usuario</option>
+                <option value="nutri">Nutricionista</option>
+              </select>
+            </label>
             <Form.Control
-              id="cantidad"
-              placeholder="cantidad"
-              type="number"
-              className="mb-1"
-            />
-            <Form.Control
-              id="sku"
-              placeholder="sku"
+              id="id"
+              placeholder="id"
               type="text"
               className="mb-1"
             />
@@ -61,7 +76,7 @@ function ModalAñadir({
         <Button variant="secondary" onClick={() => setIsModalAñadir(false)}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={añadirProductoModal}>
+        <Button variant="primary" onClick={añadirProductoModal }>
           Añadir
         </Button>
       </Modal.Footer>
