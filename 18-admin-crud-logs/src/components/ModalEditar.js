@@ -62,7 +62,7 @@ function ModalEditar({
             <Form.Control
               id="password"
               placeholder="password"
-              type="number"
+              type="text"
               className="mb-1"
               value={productoEstado?.password}
               onChange={(e) =>
@@ -75,7 +75,7 @@ function ModalEditar({
             <Form.Control
               id="nombre"
               placeholder="nombre"
-              type="number"
+              type="text"
               className="mb-1"
               value={productoEstado?.nombre}
               onChange={(e) =>
@@ -98,19 +98,15 @@ function ModalEditar({
                 })
               }
             />
-             <Form.Control
-              id="rol"
-              placeholder="rol"
-              type="text"
-              className="mb-1"
-              value={productoEstado?.rol}
-              onChange={(e) =>
-                setProductoEstado({
-                  ...productoEstado,
-                  rol: e.target.value,
-                })
-              }
-            />
+
+            <label>
+              Rol:
+              <select id="rol">
+                <option value="admin">Administrador</option>
+                <option value="usuario">Usuario</option>
+                <option value="nutri">Nutricionista</option>
+              </select>
+            </label>
           </Stack>
         </Form>
       </Modal.Body>

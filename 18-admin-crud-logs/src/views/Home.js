@@ -117,7 +117,7 @@ function Home({ usuario }) {
                   <Button
                     variant="danger"
                     onClick={() => {
-                      eliminarProductoHome(usuario.correo).then(
+                      eliminarProductoHome(usuario.id).then(
                         (confirmacion) => {
                           actualizarEstadoUsuarios();
                         }
