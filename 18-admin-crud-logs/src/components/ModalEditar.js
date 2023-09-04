@@ -3,11 +3,16 @@ import React from "react";
 import { Modal, Stack, Form, Button } from "react-bootstrap";
 
 import editarProducto from "../functions/editarProducto";
+import { getAuth, getUserByEmail } from "firebase/auth";
+import firebaseApp from "../firebase/credenciales";
+import obtenerUid from "../functions/obteneruid";
+import { getFirestore, collection, doc, setDoc, getDoc, query, where, limit } from "firebase/firestore";
 
+const auth = getAuth(firebaseApp);
 function ModalEditar({
   isModalEditar,
   setIsModalEditar,
-  actualizarEstadoProductos,
+  actualizarEstadoUsuarios,
   productoEditar,
   setProductoEditar,
   usuario,
@@ -15,16 +20,17 @@ function ModalEditar({
   function editarProductoModal() {
     //obtener infor del formulario
     const correo = document.getElementById("correo").value;
-    const password = document.getElementById("password").value;
     const nombre = document.getElementById("nombre").value;
-    const id = document.getElementById("id").value;
     const rol = document.getElementById("rol").value;
+    const sku = document.getElementById("sku").value;
+    
+
     // enviar informacion a firebase
-    const infoProducto = { correo, nombre, id, rol };
-    editarProducto(infoProducto, usuario.correo);
+    const infoProducto = { correo, nombre, rol,sku };
+    editarProducto(infoProducto);
     // cerrar modal
     setProductoEditar(null);
-    actualizarEstadoProductos();
+    actualizarEstadoUsuarios();
     setIsModalEditar(false);
   }
 
@@ -60,19 +66,6 @@ function ModalEditar({
               }
             />
             <Form.Control
-              id="password"
-              placeholder="password"
-              type="text"
-              className="mb-1"
-              value={productoEstado?.password}
-              onChange={(e) =>
-                setProductoEstado({
-                  ...productoEstado,
-                  password: e.target.value,
-                })
-              }
-            />
-            <Form.Control
               id="nombre"
               placeholder="nombre"
               type="text"
@@ -85,28 +78,30 @@ function ModalEditar({
                 })
               }
             />
-            <Form.Control
-              id="id"
-              placeholder="id"
+           <label>
+          Rol:
+          <select id="rol" className="mb-1">
+            <option value="admin">Administrador</option>
+            <option value="user">Usuario</option>
+            <option value="nutri">Nutricionista</option>
+          </select>
+        </label>
+        <Form.Control
+              id="sku"
+              placeholder="sku"
               type="text"
               className="mb-1"
-              value={productoEstado?.id}
+              value={productoEstado?.sku}
               onChange={(e) =>
                 setProductoEstado({
                   ...productoEstado,
-                  id: e.target.value,
+                  nombre: e.target.value,
                 })
               }
+              disabled
+              readOnly
             />
-
-            <label>
-              Rol:
-              <select id="rol">
-                <option value="admin">Administrador</option>
-                <option value="usuario">Usuario</option>
-                <option value="nutri">Nutricionista</option>
-              </select>
-            </label>
+        
           </Stack>
         </Form>
       </Modal.Body>
