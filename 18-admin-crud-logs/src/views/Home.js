@@ -90,7 +90,6 @@ function Home({ usuario }) {
             <th>Nombre</th>
             <th>rol</th>
             <th>id</th>
-            <th>password</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -102,8 +101,7 @@ function Home({ usuario }) {
                 <td>{usuario.correo}</td>
                 <td>{usuario.nombre}</td>
                 <td>{usuario.rol}</td>
-                <td>{usuario.id}</td>
-                <td>{usuario.password}</td>
+                <td>{usuario.sku}</td>
                 <td>
                   <Button
                     variant="dark"
@@ -117,14 +115,19 @@ function Home({ usuario }) {
                   <Button
                     variant="danger"
                     onClick={() => {
-                      eliminarProductoHome(usuario.correo).then(
+                      eliminarProductoHome(usuario).then(
                         (confirmacion) => {
                           actualizarEstadoUsuarios();
                         }
                       );
                     }}
                   >
-                    Eliminar
+                    Inactivar
+                  </Button>
+                  <Button
+                    variant="info"
+                  >
+                    Reset password
                   </Button>
                 </td>
               </tr>
@@ -132,6 +135,7 @@ function Home({ usuario }) {
         </tbody>
       </Table>
       <Button onClick={añadirProductoHome}> Añadir USUARIO</Button>
+      <Button onClick={añadirProductoHome}> Añadir Rol</Button>
     </Container>
   );
 }
