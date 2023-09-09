@@ -1,5 +1,5 @@
 import { Modal, Stack, Form, Button } from "react-bootstrap";
-import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
+//import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
 import añadirProducto from "../functions/añadirUsuario";
 import añadirUsuario from "../functions/añadirUsuario";
 

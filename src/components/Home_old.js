@@ -13,11 +13,12 @@ const auth = getAuth(firebaseApp);
 export function Home({ usuario }) {
   return (
     <div>
-        <Header usuario={usuario} />
+        <Header />
       <button onClick={() => signOut(auth)}> Cerrar sesión</button>
 
+      {usuario.rol == "user" && <UserView />} 
+                       {usuario.rol == "admin" && <AdminView /> } 
     
-                       {usuario.rol == "admin" ? <UserView /> :<AdminView usuario={usuario} /> } 
       <Footer />
     </div>
   );
