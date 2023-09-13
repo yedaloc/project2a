@@ -17,7 +17,9 @@ export function Home({ usuario }) {
       <button onClick={() => signOut(auth)}> Cerrar sesión</button>
     
       
-      {usuario.rol == "admin" ? <AdminView usuario={usuario}/> :<UserView /> } 
+       
+      {usuario.rol == "user" && <UserView />} 
+      {usuario.rol == "admin" && <AdminView usuario={usuario} /> } 
     
         
       <Footer />
