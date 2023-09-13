@@ -11,7 +11,7 @@ const auth = getAuth(firebaseApp);
 
 function Login() {
   const firestore = getFirestore(firebaseApp);
-  //const [isRegistrando, setIsRegistrando] = useState(false);
+  const [isRegistrando, setIsRegistrando] = useState(false);
 
   async function registrarUsuario(email, password, rol) {
     const infoUsuario = await createUserWithEmailAndPassword(
@@ -32,22 +32,23 @@ function Login() {
 
     const email = e.target.elements.email.value;
     const password = e.target.elements.password.value;
-    const rol = e.target.elements.rol.value;
+   // const rol = e.target.elements.rol.value;
 
-    console.log("submit", email, password, rol);
+    console.log("submit", email, password);
 
- //   if (isRegistrando) {
+    if (isRegistrando) {
       // registrar
- //     registrarUsuario(email, password, rol);
- //   } else {
+      console.log("no va a entrar nunca aqui xd");
+
+    } else {
       // login
-//      signInWithEmailAndPassword(auth, email, password);
-  //  }
- }
+      signInWithEmailAndPassword(auth, email, password);
+    }
+  }
 
   return (
     <div className="auth-form-container">
-      <h1>{ "Inicia sesión"}</h1>
+      <h1>{isRegistrando ? "Regístrate" : "Inicia sesión"}</h1>
 
       <form className="login-form" onSubmit={submitHandler}>
         <label>
@@ -62,9 +63,12 @@ function Login() {
 
         <input
           type="submit"
-          value={ "Iniciar sesión"}
+          value={isRegistrando ? "Registrar" : "Iniciar sesión"}
         />
       </form>
+
+      <button onClick={() => setIsRegistrando(!isRegistrando)}>
+      </button>
     </div>
   );
 }
