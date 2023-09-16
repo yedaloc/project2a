@@ -20,6 +20,7 @@ export function Home({ usuario }) {
        
       {usuario.rol == "user" && <UserView />} 
       {usuario.rol == "admin" && <AdminView usuario={usuario} /> } 
+      {usuario.rol == "nutri" && <NutriView usuario={usuario} /> } 
     
         
       <Footer />

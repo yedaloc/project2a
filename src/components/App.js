@@ -31,6 +31,7 @@ function App() {
         uid: usuarioFirebase.uid,
         email:usuarioFirebase.email,
         rol:rol,
+        estado:usuarioFirebase.estado,
       };
       setUsuario(userData);
       console.log("user data final",userData);
