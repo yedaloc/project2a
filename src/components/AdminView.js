@@ -2,7 +2,6 @@ import React from "react";
 import signOut from "../functions/cerrarSesion";
 import { Container, Stack, Button, Form, Table } from "react-bootstrap";
 import getAllProducts from "../functions/getAllProducts";
-import getAllRoles from "../functions/getAllRoles";
 import eliminarProductoHome from "../functions/eliminarProductoHome";
 import filtrarDatos from "../functions/filtrarDatos";
 
@@ -10,18 +9,11 @@ import filtrarDatos from "../functions/filtrarDatos";
 import ModalAñadir from "../components/ModalAñadir";
 import ModalEditar from "../components/ModalEditar";
 
-import ModalAñadirRol from "../components/ModalAnadirRol";
-
-
 function AdminView({usuario}) {
   const [usuarios, setUsuarios] = React.useState([]);
-  const [roles, setRoles] = React.useState([]);
   const [isModalAñadir, setIsModalAñadir] = React.useState(false);
   const [isModalEditar, setIsModalEditar] = React.useState(false);
   const [productoEditar, setProductoEditar] = React.useState(null);
-  const [roleAnadir, setRoleAnadir] = React.useState(null);
-
-  const [isModalAnadirRol, setIsModalAnadirRol] = React.useState(false);
 
   async function busquedaFormHandler(e) {
     e.preventDefault();
@@ -36,18 +28,8 @@ function AdminView({usuario}) {
     });
   }
 
-
-  function actualizarEstadoRol() {
-    getAllRoles().then((rol) => {
-      setUsuarios(rol);
-    });
-  }
   function añadirProductoHome() {
     setIsModalAñadir(true);
-  }
-
-  function anadirRolHome() {
-    setIsModalAnadirRol(true);
   }
 
   React.useEffect(() => {
@@ -62,12 +44,6 @@ function AdminView({usuario}) {
         actualizarEstadoUsuarios={actualizarEstadoUsuarios}
         usuario={usuario}
       />
-      <ModalAñadirRol
-        isModalAñadir={isModalAnadirRol}
-        setIsModalAñadir={setIsModalAnadirRol}
-        actualizarEstadoRol={actualizarEstadoRol}
-        roles={roles}
-      />
       {productoEditar && (
         <ModalEditar
           isModalEditar={isModalEditar}
@@ -77,7 +53,6 @@ function AdminView({usuario}) {
           setProductoEditar={setProductoEditar}
           usuario={usuario}
         />
-        
       )}
       <Stack direction="horizontal" className="justify-content-between">
         <p style={{ fontSize: 24 }}>Bienvenido,{usuario.email} </p>
@@ -160,7 +135,7 @@ function AdminView({usuario}) {
         </tbody>
       </Table>
       <Button onClick={añadirProductoHome}> Añadir USUARIO</Button>
-      <Button onClick={anadirRolHome}> Añadir Rol</Button>
+      <Button onClick={añadirProductoHome}> Añadir Rol</Button>
     </Container>
   );
 }
