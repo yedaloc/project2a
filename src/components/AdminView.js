@@ -2,18 +2,29 @@ import React from "react";
 import signOut from "../functions/cerrarSesion";
 import { Container, Stack, Button, Form, Table } from "react-bootstrap";
 import getAllProducts from "../functions/getAllProducts";
-import eliminarProductoHome from "../functions/eliminarProductoHome";
+import inactivarEstadoUsuarios from "../functions/inactivaEstadoUsuario";
+import activarEstadoUsuarios from "../functions/activaEstadoUsuario";
 import filtrarDatos from "../functions/filtrarDatos";
+import { Header } from './Header.js';
+import { Footer } from './Footer.js';
 
 //modales
 import ModalAñadir from "../components/ModalAñadir";
 import ModalEditar from "../components/ModalEditar";
+import ModalAñadirRol from "./ModaAnadirRol";
+import sendEmail from "../functions/sendEmail";
+import swal from "sweetalert";
+
+
 
 function AdminView({usuario}) {
   const [usuarios, setUsuarios] = React.useState([]);
   const [isModalAñadir, setIsModalAñadir] = React.useState(false);
   const [isModalEditar, setIsModalEditar] = React.useState(false);
   const [productoEditar, setProductoEditar] = React.useState(null);
+
+  //agregado el 1609
+  const [isModalAñadirRol, setIsModalAñadirRol] = React.useState(false);
 
   async function busquedaFormHandler(e) {
     e.preventDefault();
@@ -31,18 +42,66 @@ function AdminView({usuario}) {
   function añadirProductoHome() {
     setIsModalAñadir(true);
   }
+//agredado 1609
+  function añadirRolHome() {
+    setIsModalAñadirRol(true);
+  }
 
   React.useEffect(() => {
     actualizarEstadoUsuarios();
   }, []);
+  const mostrarAlertaActivo=()=>{
+    swal({
+      title: "Usuario activado",
+      text: "Fue activado sin inconvenientes",
+      icon:"success",
+      button:"Aceptar",
+      timer:"5000"
+    })
+    //console.log("entro dentro de la alerta");
+
+  }
+
+  const mostrarAlertaInactivo=()=>{
+    swal({
+      title: "Usuario desactivado",
+      text: "Fue desactivado sin inconvenientes",
+      icon:"success",
+      button:"Aceptar",
+      timer:"5000"
+    })
+    //console.log("entro dentro de la alerta");
+
+  }
+
+ 
+
+  const mostrarAlertaMail=()=>{
+    swal({
+      title: "Correo enviado",
+      text: "Fue enviado el correo de restablecimiento de contrasena",
+      icon:"success",
+      button:"Aceptar",
+      timer:"2000"
+    })
+    //console.log("entro dentro de la alerta");
+
+  }
 
   return (
+    
     <Container fluid>
+      <Header usuario={usuario} />
       <ModalAñadir
         isModalAñadir={isModalAñadir}
         setIsModalAñadir={setIsModalAñadir}
         actualizarEstadoUsuarios={actualizarEstadoUsuarios}
         usuario={usuario}
+      />
+      
+         <ModalAñadirRol
+        isModalAñadirRol={isModalAñadirRol}
+        setIsModalAñadirRol={setIsModalAñadirRol}
       />
       {productoEditar && (
         <ModalEditar
@@ -89,7 +148,7 @@ function AdminView({usuario}) {
             <th>Correo</th>
             <th>Nombre</th>
             <th>rol</th>
-            <th>id</th>
+         { /*  <th>id</th>  */}
             <th>Acciones</th>
           </tr>
         </thead>
@@ -101,7 +160,7 @@ function AdminView({usuario}) {
                 <td>{usuario.correo}</td>
                 <td>{usuario.nombre}</td>
                 <td>{usuario.rol}</td>
-                <td>{usuario.sku}</td>
+                { /*  <td>{usuario.sku}</td> */}
                 <td>
                   <Button
                     variant="dark"
@@ -115,17 +174,40 @@ function AdminView({usuario}) {
                   <Button
                     variant="danger"
                     onClick={() => {
-                      eliminarProductoHome(usuario).then(
+                      inactivarEstadoUsuarios(usuario).then(
                         (confirmacion) => {
                           actualizarEstadoUsuarios();
                         }
                       );
+                      mostrarAlertaInactivo(true);
                     }}
                   >
                     Inactivar
                   </Button>
                   <Button
                     variant="info"
+                    onClick={() => {
+                      activarEstadoUsuarios(usuario).then(
+                        (confirmacion) => {
+                          actualizarEstadoUsuarios();
+                          
+                        }
+                      );
+                      mostrarAlertaActivo(true);
+                    }}
+                  >
+                    Activar
+                  </Button>
+                  <Button
+                    variant="warning"
+                    onClick={() => {
+                      sendEmail(usuario).then(
+                        (confirmacion) => {
+                          actualizarEstadoUsuarios();
+                        }
+                      );
+                      mostrarAlertaMail(true);
+                    }}
                   >
                     Reset password
                   </Button>
@@ -135,7 +217,11 @@ function AdminView({usuario}) {
         </tbody>
       </Table>
       <Button onClick={añadirProductoHome}> Añadir USUARIO</Button>
-      <Button onClick={añadirProductoHome}> Añadir Rol</Button>
+      <Button onClick={añadirRolHome}> Añadir Rol</Button>
+
+
+      <Footer />
+      
     </Container>
   );
 }

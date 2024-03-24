@@ -4,7 +4,7 @@ export function Footer() {
     return(
         
         <footer>
-                <p>&copy; Health Planning 2022</p>
+                <p>&copy; Health Planning 2023</p>
         </footer>
     );
 }

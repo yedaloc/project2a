@@ -56,9 +56,9 @@ span {
 .intro {
     padding: 5rem;
 }
-
+{/*cambie aca era white*/}
 header div .flex-item-card-intro {
-    color: white;
+    color: black;
     padding: 7%;
 }
 
@@ -76,12 +76,13 @@ header {
 /* Nav Cards Styling */
 .flex-container {
     display: flex;
+    background-position: center;
     flex-direction: row;
 }
-
+/*era #F3FFF3 */
 .flex-item-card {
     width: 33.3%;
-    background-color: #F3FFF3;
+    background-color: #0b0b0b;
     margin: 0.3rem;
     border-radius: 10px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
@@ -113,7 +114,7 @@ form select {
     width: 100%;
     padding: 5px 10px;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 1px solid #040404;
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -195,7 +196,7 @@ footer {
 }
 
 .team-section .column {
-    width: 25%;
+    width: 50%;
     margin-bottom: 16px;
     padding: 0 8px;
 }
@@ -521,3 +522,77 @@ footer {
         font-size: 40px;
     }
 }
+
+.auth-form-container{
+    padding: 1em;
+		
+		color: hsl(0 0 100);
+		border: none;
+		border-radius: 30px;
+		font-weight: 600;
+}
+
+.login-form {
+    padding: 1em;
+    color: hsl(0 0 100);
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.password {
+    background: hsl(0deg 0% 100%);
+    box-shadow: 0 0 2em hsl(231deg 62% 94%);
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: hsl(0deg 0% 30%);
+    input {
+        outline: none;
+        border: none;
+        &::placeholder {
+            color: hsl(0deg 0% 0%);
+            font-size: 0.9em;
+        }
+    }}
+
+    .email {
+        background: hsl(0deg 0% 100%);
+        box-shadow: 0 0 2em hsl(231deg 62% 94%);
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        border-radius: 20px;
+        color: hsl(0deg 0% 30%);
+        input {
+            outline: none;
+            border: none;
+            &::placeholder {
+                color: hsl(0deg 0% 0%);
+                font-size: 0.9em;
+            }
+        }}
+
+    .login {
+		padding: 1em;
+		background: hsl(233deg 36% 38%);
+		color: hsl(0 0 100);
+		border: none;
+		border-radius: 30px;
+		font-weight: 600;
+	}
+    @font-face {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+        src: local('Material Icons'),
+          local('MaterialIcons-Regular'),
+          url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+          url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
+          url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+      }
+      

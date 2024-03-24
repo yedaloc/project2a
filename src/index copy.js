@@ -9,6 +9,7 @@ import './index.css';
 import "jquery/dist/jquery";
 import 'bootstrap/dist/js/bootstrap.bundle';
 import 'bootstrap/dist/css/bootstrap.css';
+import { BrowserRouter } from 'react-router-dom';
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App";
@@ -17,20 +18,19 @@ import { DarkModeContextProvider } from "./components/context/darkModeContext";
 //import reportWebVitals from './reportWebVitals';
 import 'whatwg-fetch';
 import UserView from './components/UserView';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
-    </BrowserRouter>
+    <DarkModeContextProvider>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+    </DarkModeContextProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
+
 
 
 // Import the functions you need from the SDKs you need

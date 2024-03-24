@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './Login.css';
 import firebaseApp from "../firebase/credenciales";
+import { useNavigate } from "react-router-dom"
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -27,6 +28,8 @@ function Login() {
     setDoc(docuRef, { correo: email, rol: rol });
   }
 
+  const navigate = useNavigate();
+
   function submitHandler(e) {
     e.preventDefault();
 
@@ -35,15 +38,18 @@ function Login() {
    // const rol = e.target.elements.rol.value;
 
     console.log("submit", email, password);
-
-    if (isRegistrando) {
-      // registrar
-      console.log("no va a entrar nunca aqui xd");
-
-    } else {
       // login
-      signInWithEmailAndPassword(auth, email, password);
-    }
+      signInWithEmailAndPassword(auth, email, password).then((user) => {
+        // Success...
+        console.log(user)
+        navigate('/')
+        //...
+    })
+    .catch((error) => {
+      // Error
+      console.log(error)
+  })
+      console.log("logueado", email, password);
   }
 
   return (
@@ -53,22 +59,20 @@ function Login() {
       <form className="login-form" onSubmit={submitHandler}>
         <label>
           Correo electrónico:
-          <input type="email" id="email" />
+          <input required  className="email" type="email" id="email" />
         </label>
 
         <label>
           Contraseña:
-          <input type="password" id="password" />
+          <input className="password" type="password" id="password" />
         </label>
 
         <input
           type="submit"
-          value={isRegistrando ? "Registrar" : "Iniciar sesión"}
+          value={"Iniciar sesión"}
         />
       </form>
 
-      <button onClick={() => setIsRegistrando(!isRegistrando)}>
-      </button>
     </div>
   );
 }

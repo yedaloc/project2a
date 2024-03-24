@@ -7,6 +7,8 @@ import { getAuth, getUserByEmail } from "firebase/auth";
 import firebaseApp from "../firebase/credenciales";
 import obtenerUid from "../functions/obteneruid";
 import { getFirestore, collection, doc, setDoc, getDoc, query, where, limit } from "firebase/firestore";
+import getAllRol from "../functions/getAllRol";
+import swal from "sweetalert";
 
 const auth = getAuth(firebaseApp);
 function ModalEditar({
@@ -28,15 +30,61 @@ function ModalEditar({
     // enviar informacion a firebase
     const infoProducto = { correo, nombre, rol,sku };
     editarProducto(infoProducto);
+
     // cerrar modal
     setProductoEditar(null);
     actualizarEstadoUsuarios();
     setIsModalEditar(false);
+    console.log("pasa por aqui antes de entrar en alerta");
+    
   }
 
   const [productoEstado, setProductoEstado] = React.useState({
     ...productoEditar,
   });
+
+  const mostrarAlertaEditar=()=>{
+    swal({
+      title: "Usuario Editado",
+      text: "Fue editado el usuario",
+      icon:"success",
+      button:"Aceptar",
+      timer:"2000"
+    })
+    //console.log("entro dentro de la alerta");
+
+  }
+
+
+  const rol=getAllRol();
+  //setNutri(nutri);
+
+  //var data=''
+
+  const [data, setData] = React.useState([]);
+
+  var infodata=''
+
+  Promise.resolve(rol).then(value=>{
+      //console.log('value: yeda :',value)
+      //data=value;
+      
+      setData(value);
+
+
+      }) 
+ // console.log('data: yeda :',data)
+     // data = Array.from(props.infodata);
+
+     const options = data.map((item) => {
+      return (
+        <option key={item} value={item}>
+          {item}
+        </option>
+      )
+    })
+
+
 
   return (
     <Modal
@@ -52,6 +100,7 @@ function ModalEditar({
       <Modal.Body>
         <Form>
           <Stack>
+          <Form.Label>Correo</Form.Label>
             <Form.Control
               id="correo"
               placeholder="correo"
@@ -65,6 +114,7 @@ function ModalEditar({
                 })
               }
             />
+            <Form.Label>Nombre</Form.Label>
             <Form.Control
               id="nombre"
               placeholder="nombre"
@@ -77,19 +127,27 @@ function ModalEditar({
                   nombre: e.target.value,
                 })
               }
-            />
+            /> 
            <label>
-          Rol:
-          <select id="rol" className="mb-1">
-            <option value="admin">Administrador</option>
-            <option value="user">Usuario</option>
-            <option value="nutri">Nutricionista</option>
-          </select>
+           <Form.Label>Rol</Form.Label>
+           <Form.Control
+              id="rol"
+              as="select"
+              type="text"
+              className="mb-1"
+              value={productoEstado?.rol}
+              onChange={(e) =>
+                setProductoEstado({
+                  ...productoEstado,
+                  rol: e.target.value,
+                })
+              }
+            > {options}</Form.Control>
         </label>
-        <Form.Control
+       { <Form.Control
               id="sku"
               placeholder="sku"
-              type="text"
+              type="hidden"
               className="mb-1"
               value={productoEstado?.sku}
               onChange={(e) =>
@@ -100,7 +158,7 @@ function ModalEditar({
               }
               disabled
               readOnly
-            />
+            />}
         
           </Stack>
         </Form>
@@ -115,7 +173,8 @@ function ModalEditar({
         >
           Cancelar
         </Button>
-        <Button variant="primary" onClick={editarProductoModal}>
+        <Button variant="primary" onClick={() => {editarProductoModal(true);
+        mostrarAlertaEditar(true);}}>
           Editar
         </Button>
       </Modal.Footer>

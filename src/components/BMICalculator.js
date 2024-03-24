@@ -4,13 +4,8 @@ import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getFirestore } from "firebase/firestore";
-import { set as firebaseSet, push as firebasePush } from 'firebase/database';
-import { getDatabase, ref, child, get, onValue } from "firebase/database";
-import { collection, doc, setDoc } from "firebase/firestore"; 
-import { app } from "../firebase";
-import { ref as sRef } from 'firebase/storage';
-
+import { getFirestore, collection, getDocs, setDoc,addDoc } from "firebase/firestore";
+import firebaseApp from "../components/credenciales";
 
 export function BMICalculator(props) {
     // state variable to track the weight in kg user entered from the number input
@@ -64,17 +59,17 @@ export function BMICalculator(props) {
         // what to do FIRST TIME the component loads
 
         // hook up listener for when a value changes
-        const db =  getDatabase();
-        const bmiResultRef = ref(db, '/allBMIData'); // refers to "allBMIData" in the database
-        onValue(bmiResultRef, (snapshot) => {
-            const data = snapshot.val();
-           // updateStarCount(postElement, data);
-          });
+        const db = getFirestore(firebaseApp);
+        const bmiResultRef = collection(db, "allBMIData"); // refers to "allBMIData" in the database
+
+        const newBMIVal = [];
 
         // onValue() returns how to turn it back off
         //returns a function that will "unregister" (turn off) the listener
-        const unregisterFunction = onValue(bmiResultRef, (snapshot) => {
-            const newBMIVal = snapshot.val();
+        const snapshot = getDocs(bmiResultRef);
+        snapshot.forEach((doc) => {
+            newBMIVal.push(doc.data());
+             });
             setFirebaseBMIData(newBMIVal); // keep a copy of firebase allBMIData
 
 
@@ -114,36 +109,29 @@ export function BMICalculator(props) {
                 setLabelArray([]);
                 setChartData([]);
             }
-        })
+        
 
         //cleanup function for when component is removed
-        function cleanup() {
-            unregisterFunction(); //call the unregister function
-        }
-        return cleanup; //effect hook callback returns the cleanup function
+         //effect hook callback returns the cleanup function
     }, [])
 
 
     const handleSubmitSaveData = (event) => {
         event.preventDefault();
-        const db = getDatabase();
+        const db =getFirestore(firebaseApp);
         const newData = {
             bmiResult: BMIResult,
             date: date.toString().slice(0, 15)
         }
-        //const allBMIData = ref(db, '/allBMIData'); 
-        const allBMIData = ref(db, "/allBMIData");
-        firebasePush(allBMIData, newData);
-       // allBMIData.set({
-        //    bmiResult: BMIResult,
-         //   date: date.toString().slice(0, 15)
-       // });
+        const allBMIData = collection(db, "allBMIData");
+        addDoc(allBMIData, newData);
     }
 
     // callback function to remove bmi data from firebase realtime database
     const handleSubmitRemoveData = (event) => {
         event.preventDefault();
-        const db = getDatabase();
+        const db = getFirestore(firebaseApp);
+
 
         const buttonValue = event.target.value;
         const buttonDateVal = buttonValue.split("&")[0];
@@ -167,9 +155,10 @@ export function BMICalculator(props) {
             for (let i = 0; i < firebaseBMIDataNew.length; i++) {
                 if (buttonBMIVal == firebaseBMIDataNew[i].bmi & buttonDateVal == firebaseBMIDataNew[i].date) {
                     const delUniqueKey = firebaseBMIDataNew[i].uniqueKey;
-                    const delRefString = '/allBMIData' + delUniqueKey;
+                    console.log(delUniqueKey);
+                    const delRefString = "allBMIData/" + delUniqueKey;
                     const delRef = collection(db, delRefString);
-                    firebaseSet(delRef, null);
+                   // de(delRef, null);
                 }
             }
         }
@@ -197,7 +186,7 @@ export function BMICalculator(props) {
                     className="btn btn-outline-danger my-2 my-sm-0"
                     value={obj.dateBMI}
                     onClick={handleSubmitRemoveData}>
-                    Eliminar
+                    Remove
                 </button>
             </td>
         </tr>;
@@ -207,30 +196,30 @@ export function BMICalculator(props) {
     return (
         <div>
         <section id="calculate-my-BMI" className="subsection-1">
-            <h1>Calcular mi IMC</h1>
+            <h1>Calculate My BMI</h1>
             <div className="flex-container-BMI">
                 <div className="flex-item-card-BMI">
                     <form className="center">
 
                         <div className="form-group">
-                            <label htmlFor="weight_kg" className="margin-BMI-form">Peso (kg): </label>
-                            <input type="number" id="weight_kg" placeholder="Peso en kg"
+                            <label htmlFor="weight_kg" className="margin-BMI-form">Weight (kg): </label>
+                            <input type="number" id="weight_kg" placeholder="weight in kg"
                                 className="form-control" onChange={handleWeightInputChange} />
 
-                            <label htmlFor="height_cm" className="margin-BMI-form">Altura (cm): </label>
-                            <input type="number" id="height_cm" placeholder="Altura en cm"
+                            <label htmlFor="height_cm" className="margin-BMI-form">Height (cm): </label>
+                            <input type="number" id="height_cm" placeholder="height in cm"
                                 className="form-control" onChange={handleHeightInputChange} />
 
                             <div className="center">
                                 <button id="submitButton" type="submit" className="btn btn-warning"
-                                    onClick={handleCalculateClick}>Calcular IMC</button>
+                                    onClick={handleCalculateClick}>Calculate BMI</button>
                             </div>
 
                             <div className="margin-BMI-form margin-BMI-form-2">
-                                <label htmlFor="your_bmi" className="margin-BMI-form">Tu IMC: </label>
+                                <label htmlFor="your_bmi" className="margin-BMI-form">Your BMI: </label>
                                 <input readOnly type="text" id="your_bmi"
                                     value={BMIResult}
-                                    placeholder="Tu IMC"
+                                    placeholder="Your BMI"
                                     className="form-control" />
 
                                 <DatePicker
@@ -241,7 +230,7 @@ export function BMICalculator(props) {
 
                                 <div className="center">
                                     <button id="submitButton" type="submit" className="btn btn-warning"
-                                        onClick={handleSubmitSaveData}>Guardar Datos</button>
+                                        onClick={handleSubmitSaveData}>Save Data</button>
                                 </div>
                             </div>
                         </div>
@@ -255,7 +244,7 @@ export function BMICalculator(props) {
                         labels: labelArray,
                         datasets: [
                             {
-                                label: 'Gráfico de mi BMI',
+                                label: 'My BMI line graph',
                                 data: chartData,
                             },
                         ],
@@ -270,9 +259,9 @@ export function BMICalculator(props) {
                     <table className="table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th>Fecha</th>
-                                <th>Datos de IMC</th>
-                                <th>Acciones</th>
+                                <th>Date</th>
+                                <th>BMI data</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

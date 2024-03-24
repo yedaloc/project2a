@@ -1,7 +1,9 @@
 import { Modal, Stack, Form, Button } from "react-bootstrap";
 //import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
-import añadirProducto from "../functions/añadirUsuario";
 import añadirUsuario from "../functions/añadirUsuario";
+import swal from "sweetalert";
+
+
 
 function ModalAñadir({
   isModalAñadir,
@@ -13,7 +15,7 @@ function ModalAñadir({
     //obtener infor del formulario
     const correo = document.getElementById("correo").value;
     const contrasena = document.getElementById("contrasena").value;
-    const rol = document.getElementById("rol").value;
+    const rol = null
     const nombre = document.getElementById("nombre").value;
     const estado = "inactivo"
    // const sku = document.getElementById("sku").value;
@@ -23,7 +25,20 @@ function ModalAñadir({
     // cerrar modal
     actualizarEstadoUsuarios();
     setIsModalAñadir(false);
+    mostrarAlerta();
   }
+   
+  const mostrarAlerta=()=>{
+    swal({
+      title: "Usuario agregado",
+      text: "Fue agregado sin inconvenientes",
+      icon:"success",
+      button:"Aceptar",
+      timer:"5000"
+    });
+
+  }
+
 
   return (
     <Modal show={isModalAñadir} onHide={() => setIsModalAñadir(false)}>
@@ -33,27 +48,21 @@ function ModalAñadir({
       <Modal.Body>
         <Form>
           <Stack>
+          <Form.Label>Correo</Form.Label>
             <Form.Control
               id="correo"
               placeholder="ingresa el correo"
               type="email"
               className="mb-1"
             />
+            <Form.Label>Contrasena</Form.Label>
             <Form.Control
               id="contrasena"
               placeholder="ingrese la contrasena"
               type="password"
               className="mb-1"
             />
-           <label>
-          Rol:
-          <select id="rol" className="mb-1">
-            <option value="admin">Administrador</option>
-            <option value="user">Usuario</option>
-            <option value="nutri">Nutricionista</option>
-          </select>
-        </label>
-
+            <Form.Label>Nombre</Form.Label>        
             <Form.Control
               id="nombre"
               placeholder="nombre"

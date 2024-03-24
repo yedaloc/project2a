@@ -2,9 +2,62 @@ import React, { useState } from 'react';
 import { FoodTable } from './FoodTable.js';
 import DatePicker from "react-datepicker";
 import { NavLink } from 'react-router-dom';
+import { Button, Form } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert'
+import firebaseApp from './credenciales.js';
+import { getFirestore, collection,query,addDoc, where, getDocs } from "firebase/firestore";
 
 
 export function MakeMyDietPlan(props) {
+
+    
+    const [cliente, setCliente] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [promo, setPromo] = React.useState('');
+    const [infopromo, setinfoPromo] = React.useState('');
+    const [val, setVal] = React.useState([]);
+    const [servicio, setServicio] = useState('');
+    const [fecha, setFecha] = useState('');
+    const [alerta, setAlerta] = useState(false);
+    const [turno, setTurno] = useState('10:00');
+    const [error, setError] = useState(false);
+    const [nutri, setNutri] = React.useState([]);
+
+
+
+    const makedieta = async (e) => {
+        e.preventDefault();
+        if (cliente == '' || telefono == '' || promo == '' || fecha == '' || turno == '') {
+            setError(true);
+        } else {
+            try {
+
+               // const data = await addDoc(collection(store, 'dieta'), {  nombre: cliente,
+                //    tel: telefono,
+                //    promocion: promo,
+                //    servicio: servicio,
+                //    fecha: fecha,
+                //    turno: turno,
+                //    estado:"Agendado", });
+               // console.log('Agregado', data.id);
+                setAlerta(true);
+
+            } catch (error) {
+                console.log(error);
+            }
+
+            setCliente('');
+            setTelefono('');
+            setPromo('');
+            setServicio('');
+            setFecha('');
+            setTurno('');
+            setTimeout(() => {
+                setAlerta(false);
+            }, 3000);
+        }
+
+    };
 
     // state variable to track search query, set search query to empty string
     const [queryValue, setQueryValue] = useState("");
@@ -62,50 +115,56 @@ export function MakeMyDietPlan(props) {
                     <div className="flex-container-make">
 
                         {/* Set date and filter */}
-                        <div className="flex-item-card-make">
-                            <form className="form-inline my-2 my-lg-0">
-                                <ul className="make-my-diet-plan-ul">
-                                    <li className="make-my-diet-plan-li">
-                                        <label htmlFor="make-plan-date">Seleccionar Fecha: &nbsp; </label>
-                                        <DatePicker className='datepicker' selected={date} onChange={(date) => setDate(date)} />
-                                    </li>
-                                    <li className="make-my-diet-plan-li">
-                                        <label htmlFor="food-item-search">Buscar Alimentos:</label>
-                                        <input className="form-control mr-sm-2"
-                                            onChange={getSearchInputValue}
-                                            type="search"
-                                            aria-label="Search" />
-                                    </li>
-                                    <li className="make-my-diet-plan-li">
-                                        <label htmlFor="food_category">Seleccionar alimentos por categoría: </label>
-                                        <select className="form-control mr-sm-2" id="food_category" name="food_category"
-                                            value={selectedFoodCategory}
-                                            onChange={handleSelectFoodCategoryChange}>
-                                            <option value="">Todos</option>
-                                            {optionElems}
-                                        </select>
-                                    </li>
-                                </ul>
-                            </form>
-                        </div>
 
-                        {/* Displaying results */}
-                        <div className="flex-item-card-make">
-                            <h1>Alimentos</h1>
-                            <div className='foodtable'>
-                                <FoodTable data={displayedData} date={date} />
-                            </div>
-                        </div>
+                        <Form onSubmit={makedieta}>
 
-                        {/* Adding to database */}
-                        <div className="flex-item-card-make">
-                            <div className='addFood'>
-                                <p className="center">No encontraste el alimento que buscas?</p>
-                                <NavLink to="/add-food-to-database">
-                                    <button id="submitButton" type="submit" className="btn btn-outline-success my-2 my-sm-0">Agregar Alimento</button>
-                                </NavLink>
-                            </div>
-                        </div>
+                        <Form.Group className="make-my-diet-plan-li">
+                        <Form.Label>Elija paciente</Form.Label>
+                        <Form.Control value={cliente} type="text" placeholder="Por Ej: Lucas" onChange={(e) => { setCliente(e.target.value) }} />
+                    </Form.Group>
+
+                    <Form.Group className="make-my-diet-plan-li" controlId="exampleForm.ControlInput1">
+                        <Form.Label>Elija cita </Form.Label>
+                        <Form.Control value={cliente} type="text" placeholder="Por Ej: Lucas" onChange={(e) => { setCliente(e.target.value) }} />
+                    </Form.Group>
+
+                    <h3> Dieta : </h3>
+                    <Form.Group className="make-my-diet-plan-li" controlId="exampleForm.ControlInput1">
+                   
+                        <Form.Label>Desayuno</Form.Label>
+                        <Form.Control value={cliente} type="text" placeholder="Por Ej: Lucas" onChange={(e) => { setCliente(e.target.value) }} />
+                        <Form.Label>Media manhana</Form.Label>
+                        <Form.Control value={cliente} type="text" placeholder="Por Ej: Lucas" onChange={(e) => { setCliente(e.target.value) }} />
+                        <Form.Label>Almuerzo</Form.Label>
+                        <Form.Control value={cliente} type="text" placeholder="Por Ej: Lucas" onChange={(e) => { setCliente(e.target.value) }} />
+                        <Form.Label>Media tarde</Form.Label>
+                        <Form.Control value={cliente} type="text" placeholder="Por Ej: Lucas" onChange={(e) => { setCliente(e.target.value) }} />
+                        <Form.Label>Merienda</Form.Label>
+                        <Form.Control value={cliente} type="text" placeholder="Por Ej: Lucas" onChange={(e) => { setCliente(e.target.value) }} />
+                        <Form.Label>Cena</Form.Label>
+                        <Form.Control value={cliente} type="text" placeholder="Por Ej: Lucas" onChange={(e) => { setCliente(e.target.value) }} />
+                    </Form.Group>
+
+
+                    
+                    
+                    
+
+                    <div>
+                        {
+                            error ?
+                                <div><Alert variant="danger">
+                                    <span>ERROR! Faltan completar campos</span>
+                                </Alert></div>
+                                :
+                                <span></span>
+
+                        }
+                    </div>
+                    <Button type="submit" >Guardar Dieta</Button>
+
+                </Form>
+                        
                         
                     </div>
                 </div>
