@@ -142,7 +142,7 @@ function App() {
 
   {/* rutas protegidas */}
           <Route element={<RequireAuth usuario={usuario} roles={[ROLES.admin]}/>}>
-              <Route path="admin" element={<AdminView usuario={usuario} />} />
+              <Route path="app/admin" element={<AdminView usuario={usuario} />} />
           </Route>
 
           <Route element={<RequireAuth roles={[ROLES.nutri]} usuario={usuario}  />}>

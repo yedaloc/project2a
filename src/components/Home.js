@@ -24,7 +24,7 @@ export function Home({ usuario }) {
           </div>    
             <br />
             <div className="flex-item-card cards-color">
-            <Link to="/admin">
+            <Link to="/app/admin">
             <div>
                  <span className="material-icons md-80 center margin-card-title">face</span>
                  <p className="center">Pagina Administrador</p>
